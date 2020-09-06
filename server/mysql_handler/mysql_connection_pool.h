@@ -30,15 +30,39 @@ public:
 
 private:
     std::shared_ptr<MYSQL> CreateNewConn();
+
     std::deque<std::shared_ptr<MYSQL>> m_sqlConn;
+
     std::shared_ptr<std::mutex> m_mutex;
+
     std::shared_ptr<std::condition_variable> m_cond;
+
     int m_capacity;
+
     int m_size;
+
     std::string m_host;
+
     std::string m_userName;
+
     std::string m_passWd;
+    
     std::string m_database;
+};
+
+//封装连接池实现自动归还连接
+
+class MysqlPoolHandle {
+public:
+    MysqlPoolHandle(MySqlConnectPool &pool);
+
+    ~MysqlPoolHandle();
+
+    MYSQL* Get();
+
+private:
+    MySqlConnectPool& m_pool;
+    std::shared_ptr<MYSQL> m_conn;
 };
 
 }

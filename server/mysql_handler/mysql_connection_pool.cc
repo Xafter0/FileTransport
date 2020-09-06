@@ -110,4 +110,24 @@ bool MySqlConnectPool::ReturnConn(std::shared_ptr<MYSQL> conn)
     return true;
 }
 
+
+MysqlPoolHandle::MysqlPoolHandle(MySqlConnectPool &pool)
+    : m_pool(pool),
+      m_conn(pool.GetConn())
+{
+}
+
+MYSQL* MysqlPoolHandle::Get() //返回的MYSQL句柄不可被传递到局部区域之外使用
+{
+    return m_conn.get();
+}
+
+MysqlPoolHandle::~MysqlPoolHandle()
+{
+    if (m_conn == nullptr) {
+        return;
+    }
+    m_pool.ReturnConn(m_conn);
+}
+
 }
