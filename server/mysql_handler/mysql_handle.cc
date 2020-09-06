@@ -1,3 +1,8 @@
+/*
+*Author: 王鑫
+*Description: mysql handle 底层采用连接池连接mysql
+*Date: 2020-09-06
+*/
 #include "mysql_handle.h"
 #include <vector>
 #include <iostream>
